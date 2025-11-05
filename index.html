@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PipeGas Cloud Monitor</title>
+  <script type="module">
+    // ===== Firebase SDK =====
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-app.js";
+    import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-database.js";
+
+    // ===== Your Firebase Config =====
+    const firebaseConfig = {
+      apiKey: "AIzaSyCUMn7sWNdhsPOPvY56Mm3LfcJPB-t-UMo",
+      authDomain: "pipegas1-2fb58.firebaseapp.com",
+      databaseURL: "https://pipegas1-2fb58-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "pipegas1-2fb58",
+      storageBucket: "pipegas1-2fb58.firebasestorage.app",
+      messagingSenderId: "497678087867",
+      appId: "1:497678087867:web:e9c7fc03bca1a611495b9e",
+      measurementId: "G-44TWNTMNBP"
+    };
+
+    // ===== Initialize Firebase =====
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    // ====== Node 1 Listener ======
+    onValue(ref(db, "Node1"), (snapshot) => {
+      const data = snapshot.val();
+      if (data) {
+        document.getElementById("gas1").textContent = data.gas;
+        document.getElementById("pressure1").textContent = data.pressure;
+        document.getElementById("humidity1").textContent = data.humidity;
+        document.getElementById("temp1").textContent = data.temperature;
+      }
+    });
+
+    // ====== Node 2 Listener ======
+    onValue(ref(db, "Node2"), (snapshot) => {
+      const data = snapshot.val();
+      if (data) {
+        document.getElementById("gas2").textContent = data.gas;
+        document.getElementById("pressure2").textContent = data.pressure;
+        document.getElementById("humidity2").textContent = data.humidity;
+        document.getElementById("temp2").textContent = data.temperature;
+      }
+    });
+  </script>
+
+  <style>
+    body {
+      background-color: #0d1b22;
+      color: #fff;
+      font-family: "Segoe UI", sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 { color: #00ff88; }
+    .nodes {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 30px;
+      margin-top: 40px;
+    }
+    .card {
+      background: #1b3a57;
+      padding: 20px 30px;
+      border-radius: 15px;
+      width: 260px;
+      box-shadow: 0 0 15px rgba(0, 255, 160, 0.2);
+    }
+    .card h2 { color: #00c8ff; }
+    .card p { font-size: 18px; margin: 8px 0; }
+  </style>
+</head>
+<body>
+  <h1>🌐 PipeGas Cloud Monitor</h1>
+
+  <div class="nodes">
+    <div class="card">
+      <h2>Node 1</h2>
+      <p>🧪 Gas: <span id="gas1">--</span></p>
+      <p>⚙️ Pressure: <span id="pressure1">--</span></p>
+      <p>💧 Humidity: <span id="humidity1">--</span></p>
+      <p>🌡️ Temp: <span id="temp1">--</span></p>
+    </div>
+
+    <div class="card">
+      <h2>Node 2</h2>
+      <p>🧪 Gas: <span id="gas2">--</span></p>
+      <p>⚙️ Pressure: <span id="pressure2">--</span></p>
+      <p>💧 Humidity: <span id="humidity2">--</span></p>
+      <p>🌡️ Temp: <span id="temp2">--</span></p>
+    </div>
+  </div>
+</body>
+</html>
